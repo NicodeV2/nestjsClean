@@ -68,7 +68,10 @@ export class UserService {
   async findByEmail(email: string): Promise<userI | undefined> {
     const user = this.userRepository
       .createQueryBuilder('u')
-      .select(['u.id', 'u.email', 'u.nombre', 'u.role'])
+      .select(['u.id', 'id'])
+      .addSelect('u.email', 'email')
+      .addSelect('u.nombre', 'nombre')
+      .addSelect('u.role', 'role')
       .where('u.email = :email', { email });
     const result: userI | undefined = await user.getRawOne();
 
